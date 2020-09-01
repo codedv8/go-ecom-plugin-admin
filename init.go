@@ -17,7 +17,7 @@ func (admin *ADMIN) SysInit(app *EComApp.Application) {
 	adminRouter.Use(basicAuth.Use())
 	// Add handlers
 	adminRouter.Handle("GET", "/", func(c *gin.Context) {
-		log.Printf("Welcom to this admin %+v\n", c)
+		log.Printf("Welcome to this admin %+v\n", c)
 		c.String(200, "Welcome to this admin")
 	})
 }
@@ -27,6 +27,9 @@ func (admin *ADMIN) Init(app *EComApp.Application) {
 		switch c := payload.(type) {
 		case *EComStructs.RouterWildcard:
 			path := c.Context.Request.URL.Path
+			if len(path) < 7 {
+				return true, nil
+			}
 			if path[:7] == "/admin/" {
 				c.Context.String(200, c.Context.Request.Method+" "+path[7:]+"\n")
 				c.Context.String(200, "Plugin Admin responded to this call: "+path)
