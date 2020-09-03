@@ -3,14 +3,14 @@ package main
 import (
 	"log"
 
-	EComApp "github.com/codedv8/go-ecom-app"
-	EComStructs "github.com/codedv8/go-ecom-structs"
+	ecomapp "github.com/codedv8/go-ecom-app"
+	ecomstructs "github.com/codedv8/go-ecom-structs"
 	"github.com/gin-gonic/gin"
 	_ "github.com/gin-gonic/gin"
 )
 
 // SysInit - Pre initialization of this object
-func (admin *ADMIN) SysInit(app *EComApp.Application) {
+func (admin *ADMIN) SysInit(app *ecomapp.Application) {
 	// Create apiRouter
 	adminRouter := app.Router.Group("/admin")
 	// Create basic auth object
@@ -25,10 +25,10 @@ func (admin *ADMIN) SysInit(app *EComApp.Application) {
 }
 
 // Init - Initialization of this object
-func (admin *ADMIN) Init(app *EComApp.Application) {
+func (admin *ADMIN) Init(app *ecomapp.Application) {
 	app.ListenToHook("ROUTER_WILDCARD", func(payload interface{}) (bool, error) {
 		switch c := payload.(type) {
-		case *EComStructs.RouterWildcard:
+		case *ecomstructs.RouterWildcard:
 			path := c.Context.Request.URL.Path
 			if len(path) < 7 {
 				return true, nil
